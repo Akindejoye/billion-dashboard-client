@@ -1,8 +1,11 @@
 import { useMemo } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 import { themeSettings } from "theme";
+import Layout from "scenes/layout";
+import Dashboard from "scenes/dashboard";
 
 const App = () => {
   const mode = useSelector((state) => state.global.mode);
@@ -11,10 +14,17 @@ const App = () => {
 
   return (
     <div className="app">
+      <BrowserRouter>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <h1>Billion Dashboard</h1>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
+        </Routes>
       </ThemeProvider>
+      </BrowserRouter>
     </div>
   );
 };
